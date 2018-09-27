@@ -8,8 +8,13 @@ import os
 import requests
 from bs4 import BeautifulSoup as BS
 app = Flask(__name__)
+import json
 
 #We will receive messages that Facebook sends our bot at this endpoint
+
+@app.route('/')
+def welcome():
+    return 'hello word'
 
 @app.route("/weather", methods=['GET', 'POST'])
 def crawl_weather():  
@@ -18,8 +23,8 @@ def crawl_weather():
     data = re.text
     soup = BS(data, "html.parser")
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
-    return "Hôm nay nhiệt độ Hà Nội{}".format(result)
-
+    data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
+    return json.dumps(data)
 
 @app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
