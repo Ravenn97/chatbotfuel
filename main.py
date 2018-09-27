@@ -6,17 +6,22 @@ from flask import Flask, request
 from weather import make_crawl
 import os
 import requests
+from bs4 import BeautifulSoup as BS
 app = Flask(__name__)
 
-#We will receive messages that Facebook sends our bot at this endpoint 
-@app.route("/weather", methods=['GET', 'POST'])
-def crawl_weather():
-    
-    place = request.args.get('place')
-    key = '42b238e3c80d1cd15a5dcc981deed41f'
-    url = 'api.openweathermap.org/data/2.5/weather?q={city name},{country code}'
+#We will receive messages that Facebook sends our bot at this endpoint
 
-@app.route("/tea", methods=['GET', 'POST'])
+@app.route("/weather", methods=['GET', 'POST'])
+def crawl_weather():  
+    url = "https://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi"
+    re = requests.get(url)
+    data = re.text
+    soup = BS(data, "html.parser")
+    result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
+    return "Hôm nay nhiệt độ Hà Nội{}".format(result)
+
+
+@app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
     data = request.args.get('param')
     key  = "AIzaSyBgj-UKYIE4_cgfVAlLqPx6L74LlUBDFgQ"
@@ -27,11 +32,13 @@ def crawl_tea():
     'name={}&key={}'
     ).format(data, key)
 
-    request = requests.get(url)
-    data = request.json()
+    re = requests.get(url)
+    data = re.json()
     list_data = data["results"]
     for store in list_data:
         result.append("{} Địa chỉ:{}".format(store["name"],store["vicinity"]))
     return '\n'.join(result)
 
 
+if __name__ == '__main__':
+    app.run(debug=True)
