@@ -2,7 +2,7 @@
 #Python libraries that we need to import for our bot
 import random
 from google_api import make_api
-from flask import Flask, request
+from flask import Flask, request, make_response
 from weather import make_crawl
 import os
 import requests
@@ -24,7 +24,14 @@ def crawl_weather():
     soup = BS(data, "html.parser")
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
     data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
-    return  json.dumps({"messages": [{"text": data}]})
+    res = json.dumps({
+ "messages": [
+   {"text": data}
+ ]
+})
+    r = make_response(res)
+    #r.headers['Content-Type'] = 'application/json'
+    return r
 
 @app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
