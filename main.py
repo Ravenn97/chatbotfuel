@@ -24,7 +24,7 @@ def crawl_weather():
     soup = BS(data, "html.parser")
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
     data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
-    return  '{"messages": [{"text": {}}}]}'.format(data)
+    return  json.dumps({"messages": [{"text": data}]})
 
 @app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
