@@ -29,7 +29,12 @@ def crawl_weather():
    {"text": data}
  ]
 }
-    r = jsonify(res)
+    r = jsonify({
+ "messages": [
+   {"text": "Welcome to our store!"},
+   {"text": "How can I help you?"}
+ ]
+})
     #r.headers['Content-Type'] = 'application/json'
     return r
 
