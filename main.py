@@ -9,6 +9,7 @@ import requests
 from bs4 import BeautifulSoup as BS
 app = Flask(__name__)
 import json
+from selenium import webdriver
 
 #We will receive messages that Facebook sends our bot at this endpoint
 
@@ -31,8 +32,7 @@ def crawl_weather():
 }
     r = jsonify({
  "messages": [
-   {"text": "Welcome to our store!"},
-   {"text": "How can I help you?"}
+   {"text": data},
  ]
 })
     #r.headers['Content-Type'] = 'application/json'
@@ -61,7 +61,7 @@ def crawl_tea():
     ]
     }
     return jsonify(dict_)
-
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
