@@ -54,7 +54,13 @@ def crawl_tea():
     list_data = data["results"]
     for store in list_data:
         result.append("{} Địa chỉ:{}".format(store["name"],store["vicinity"]))
-    return '\n'.join(result)
+    text_ = "\n".join(result)   
+    dict_ = {
+    "messages": [
+    {"text": text_}
+    ]
+    }
+    return jsonify(dict_)
 
 
 if __name__ == '__main__':
