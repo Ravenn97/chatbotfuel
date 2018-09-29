@@ -102,12 +102,12 @@ def play_game():
     r = {
         "messages": [
         {"text": text_},
-        {{"text": sent_text}}
+        {"text": sent_text}
         ]
         }  
     return jsonify(r)
 
-app.route("/xsmb")
+@app.route("/xsmb", methods=['GET','POST'])
 def find_lucky_number():
     re = requests.get("https://xoso.com.vn/")
     data = re.text
@@ -116,7 +116,7 @@ def find_lucky_number():
     text_ = "Ting, ting.. con số may mắn hôm nay là {}".format(number)
     r = {
         "messages": [
-        {"text": text_},
+        {"text": text_}
         ]
         }  
     return jsonify(r)
