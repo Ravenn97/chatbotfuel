@@ -98,10 +98,11 @@ def play_game():
                 sent_text = 'Hay lắm đmm chơi lại!'
     else:
         text_ = "Chỉ chơi có bao búa kéo thôi "
-
+        sent_text = "Đọc luật đi rồi chơi nhé, ngu vch ._."
     r = {
         "messages": [
         {"text": text_},
+        {{"text": sent_text}}
         ]
         }  
     return jsonify(r)
