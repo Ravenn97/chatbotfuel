@@ -38,14 +38,14 @@ def crawl_weather():
 
 @app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
-    data = request.args.get('param')
+    param = request.args.get('param')
     key  = "AIzaSyBgj-UKYIE4_cgfVAlLqPx6L74LlUBDFgQ"
     result = []
     url = (
     'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
     '?location=20.981357,105.787503&radius=3000&'
     'name={}&key={}'
-    ).format(data, key)
+    ).format(param, key)
 
     re = requests.get(url)
     data = re.json()
@@ -58,7 +58,7 @@ def crawl_tea():
     {"text": text_}
     ]
     }
-    if data in ["tea","coffee"]:
+    if param in ["tea","coffee"]:
         r = {
             "messages": [
             {"text": text_},
