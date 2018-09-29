@@ -102,9 +102,23 @@ def play_game():
     r = {
         "messages": [
         {"text": text_},
-        {"text":sent_text}
         ]
         }  
     return jsonify(r)
+
+app.route("/xsmb")
+    re = requests.get("https://xoso.com.vn/")
+    data = re.text
+    soup = BS(data, "html.parser")
+    number = soup.find("span", id ="mb_prizeDB_item0").get_text()
+    text_ = "Ting, ting.. con số may mắn hôm nay là {}".format(number)
+    r = {
+        "messages": [
+        {"text": text_},
+        ]
+        }  
+    return jsonify(r)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
