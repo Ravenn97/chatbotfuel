@@ -1,15 +1,11 @@
   
 #Python libraries that we need to import for our bot
 import random
-from google_api import make_api
 from flask import Flask, request, make_response, jsonify
-from weather import make_crawl
 import os
 import requests
 from bs4 import BeautifulSoup as BS
 app = Flask(__name__)
-import json
-from selenium import webdriver
 
 #We will receive messages that Facebook sends our bot at this endpoint
 
@@ -25,11 +21,6 @@ def crawl_weather():
     soup = BS(data, "html.parser")
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
     data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
-    res = {
- "messages": [
-   {"text": data}
- ]
-}
     r = jsonify({
  "messages": [
    {"text": data},
