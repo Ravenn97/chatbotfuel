@@ -22,10 +22,17 @@ def crawl_weather():
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
     data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
     r = jsonify({
- "messages": [
-   {"text": data},
- ]
-})
+    "messages": [
+    {"text": data},
+    ]
+    })  
+    if "mưa" in data:
+        r = jsonify({
+        "messages": [
+        {"text": data},
+        {"text": "trời mưa nhớ mang ô nhaa, ướt người về ốm thì em thương lắm :("}
+        ]
+        })  
     #r.headers['Content-Type'] = 'application/json'
     return r
 
@@ -46,11 +53,19 @@ def crawl_tea():
     for store in list_data:
         result.append("{} Địa chỉ:{}".format(store["name"],store["vicinity"]))
     text_ = "\n".join(result)   
-    dict_ = {
+    r = {
     "messages": [
     {"text": text_}
     ]
     }
+    if data in ["tea","coffee"]:
+        r = {
+            "messages": [
+            {"text": text_},
+            {"text":"đi chơi nhớ mua phần em với nhaa :>"}
+            ]
+            }   
+
     return jsonify(dict_)
     
 
