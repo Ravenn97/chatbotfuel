@@ -107,6 +107,7 @@ def play_game():
     return jsonify(r)
 
 app.route("/xsmb")
+def find_lucky_number():
     re = requests.get("https://xoso.com.vn/")
     data = re.text
     soup = BS(data, "html.parser")
