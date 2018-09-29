@@ -3,6 +3,7 @@
 import random
 from flask import Flask, request, make_response, jsonify
 import os
+import random
 import requests
 from bs4 import BeautifulSoup as BS
 app = Flask(__name__)
@@ -21,20 +22,20 @@ def crawl_weather():
     soup = BS(data, "html.parser")
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
     data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
-    r = jsonify({
+    r = {
     "messages": [
     {"text": data},
     ]
-    })  
+    }
     if "mưa" in data:
-        r = jsonify({
+        r = {
         "messages": [
         {"text": data},
         {"text": "trời mưa nhớ mang ô nhaa, ướt người về ốm thì em thương lắm :("}
         ]
-        })  
+        }
     #r.headers['Content-Type'] = 'application/json'
-    return r
+    return jsonify(r)
 
 @app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
@@ -67,7 +68,43 @@ def crawl_tea():
             }   
 
     return jsonify(r)
-    
 
+@app.route("/buabaokeo", methods=['GET','POST'])
+def play_game():
+    param = request.args.get('param')
+    list_ = ['Búa', 'Bao', 'Kéo']
+    if param.title() in list_:
+        text_ = random.choice(list_)
+        if param.lower() == 'búa':
+            if text_ == 'Búa':
+                sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
+            if text_ == 'Bao':
+                sent_text = 'ahihi ngu vclon` :))'
+            if text_ == 'Kéo':
+                sent_text = 'Hay lắm đmm chơi lại!'
+        elif param.lower() == 'bao':
+            if text_ == 'Bao':
+                sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
+            if text_ == 'Kéo':
+                sent_text = 'ahihi ngu vclon` :))'
+            if text_ == 'Búa':
+                sent_text = 'Hay lắm đmm chơi lại!'
+        elif param.lower() == 'kéo':
+            if text_ == 'Kéo':
+                sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
+            if text_ == 'Búa':
+                sent_text = 'ahihi ngu vclon` :))'
+            if text_ == 'Bao':
+                sent_text = 'Hay lắm đmm chơi lại!'
+    else:
+        text_ = "Chỉ chơi có bao búa kéo thôi "
+
+    r = {
+        "messages": [
+        {"text": text_},
+        {"text":sent_text}
+        ]
+        }  
+    return jsonify(r)
 if __name__ == '__main__':
     app.run(debug=True)
