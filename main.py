@@ -21,7 +21,7 @@ def crawl_weather():
     data = re.text
     soup = BS(data, "html.parser")
     result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
-    data = "Hôm nay nhiệt độ Hà Nội{}".format(result)
+    data = "Hôm nay nhiệt độ Hà Nội {}".format(result)
     r = {
     "messages": [
     {"text": data},
@@ -79,26 +79,26 @@ def play_game():
             if text_ == 'Búa':
                 sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
             if text_ == 'Bao':
-                sent_text = 'ahihi ngu vclon` :))'
+                sent_text = 'ahihi thua rùi nhaa :))'
             if text_ == 'Kéo':
-                sent_text = 'Hay lắm đmm chơi lại!'
+                sent_text = 'Hay lắm chơi lại =.=!'
         elif param.lower() == 'bao':
             if text_ == 'Bao':
                 sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
             if text_ == 'Kéo':
-                sent_text = 'ahihi ngu vclon` :))'
+                sent_text = 'ahihi thua rùi nhaa :))'
             if text_ == 'Búa':
-                sent_text = 'Hay lắm đmm chơi lại!'
+                sent_text = 'Hay lắm chơi lại =.=!'
         elif param.lower() == 'kéo':
             if text_ == 'Kéo':
                 sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
             if text_ == 'Búa':
-                sent_text = 'ahihi ngu vclon` :))'
+                sent_text = 'ahihi thua rùi nhaa :))'
             if text_ == 'Bao':
-                sent_text = 'Hay lắm đmm chơi lại!'
+                sent_text = 'Hay lắm chơi lại =.=!'
     else:
         text_ = "Chỉ chơi có bao búa kéo thôi "
-        sent_text = "Đọc luật đi rồi chơi nhé, ngu vch ._."
+        sent_text = "Đọc luật đi rồi chơi nhé :3 "
     r = {
         "messages": [
         {"text": text_},
@@ -113,7 +113,7 @@ def find_lucky_number():
     data = re.text
     soup = BS(data, "html.parser")
     number = soup.find("span", id ="mb_prizeDB_item0").get_text()
-    text_ = "Ting, ting.. con số may mắn hôm nay là {}".format(number)
+    text_ = "Ting, ting.. con số may mắn hôm nay là {}".format(number[-2:])
     r = {
         "messages": [
         {"text": text_}

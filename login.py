@@ -40,8 +40,7 @@ def login(ID, password ):
 	return result1
 
 
-def make_response(number):
-	result1 = login(ID,password)
+def make_response(result1, number):
 	result2 = [i[number] for i in result1]
 	result3 = []
 	for index,value in enumerate(result2):
@@ -52,7 +51,7 @@ def make_response(number):
 
 def take_day():
 	re = requests.get('https://xoso.com.vn/')
-	data = re.textsoup = BS(data,'html.parser')
+	data = re.textsoup 
 	soup = BS(data,'html.parser')
 	ss = soup.find('span', class_='post-time display-desktop').get_text()
 	sss = ss.lower().strip().split()
@@ -62,18 +61,21 @@ def take_day():
 			return word
 
 def main():
+	ID = request.args.get('id')
+    password = request.args.get('password')
+    data = login(ID, password)
 	today = take_day()
 	if today == 'hai':
-		return make_response(0)
+		return make_response(0,data)
 	elif today == 'ba':
-		return make_response(1)
+		return make_response(1,data)
 	elif today == 'tư':
-		return make_response(1)
+		return make_response(2.data)
 	elif today == 'năm':
-		return make_response(1)		
+		return make_response(3,data)		
 	elif today == 'sáu':
-		return make_response(1)
+		return make_response(4,data)
 	elif today == 'bảy':
-		return make_response(1)
+		return make_response(5,data)
 	elif today == 'nhật':
-		return make_response(1)
+		return make_response(6,data)
