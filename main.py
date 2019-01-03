@@ -3,7 +3,6 @@
 import random
 from flask import Flask, request, make_response, jsonify
 import os
-import random
 import requests
 from bs4 import BeautifulSoup as BS
 app = Flask(__name__)

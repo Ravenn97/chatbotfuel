@@ -14,7 +14,7 @@ def make_api(data):
 	request = requests.get(url)
 	data = request.json()
 	list_data = data["results"]
-	for coffe in list_data:
+	for coffe in list_data :
 		result.append("{} Địa chỉ:{}".format(coffe["name"],coffe["vicinity"]))
 	return result
 
