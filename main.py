@@ -78,23 +78,23 @@ def play_game():
             if text_ == 'Búa':
                 sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
             if text_ == 'Bao':
-                sent_text = 'ahihi thua rùi nhaa :))'
+                sent_text = 'ahihi ngu vclon` :))'
             if text_ == 'Kéo':
-                sent_text = 'Hay lắm chơi lại =.=!'
+                sent_text = 'Hay lắm dmm chơi lại =.=!'
         elif param.lower() == 'bao':
             if text_ == 'Bao':
                 sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
             if text_ == 'Kéo':
-                sent_text = 'ahihi thua rùi nhaa :))'
+                sent_text = 'ahihi ngu vclon` :))'
             if text_ == 'Búa':
-                sent_text = 'Hay lắm chơi lại =.=!'
+                sent_text = 'Hay lắm dmm chơi lại =.=!'
         elif param.lower() == 'kéo':
             if text_ == 'Kéo':
                 sent_text = 'Hòa rùi chơi lại nhaa \n😙😙😙'
             if text_ == 'Búa':
-                sent_text = 'ahihi thua rùi nhaa :))'
+                sent_text = 'ahihi ngu vclon` :))'
             if text_ == 'Bao':
-                sent_text = 'Hay lắm chơi lại =.=!'
+                sent_text = 'Hay lắm dmm chơi lại =.=!'
     else:
         text_ = "Chỉ chơi có bao búa kéo thôi "
         sent_text = "Đọc luật đi rồi chơi nhé :3 "
