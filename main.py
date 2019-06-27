@@ -1,74 +1,77 @@
-  
-#Python libraries that we need to import for our bot
+# Python libraries that we need to import for our bot
 import random
-from flask import Flask, request, make_response, jsonify
-import os
+from flask import Flask, request, jsonify
 import requests
 from bs4 import BeautifulSoup as BS
+
 app = Flask(__name__)
 
-#We will receive messages that Facebook sends our bot at this endpoint
+
+# We will receive messages that Facebook sends our bot at this endpoint
 
 @app.route('/')
 def welcome():
     return 'hello word'
 
+
 @app.route("/weather", methods=['GET', 'POST'])
-def crawl_weather():  
-    url = "https://www.24h.com.vn/ttcb/thoitiet/thoi-tiet-ha-noi"
+def crawl_weather():
+    url = "https://www.24h.com.vn/du-bao-thoi-tiet-c568.html"
     re = requests.get(url)
     data = re.text
     soup = BS(data, "html.parser")
-    result = soup.find("td",class_="ttCel").get_text().replace("\n"," ").strip()
-    data = "Hôm nay nhiệt độ Hà Nội {}".format(result)
+    result = soup.find("td", class_="col2").replace("\n", " ")
+    data = "Hiện tại nhiệt độ Hà Nội {}".format(result)
     r = {
-    "messages": [
-    {"text": data},
-    ]
+        "messages": [
+            {"text": data},
+        ]
     }
     if "mưa" in data:
         r = {
-        "messages": [
-        {"text": data},
-        {"text": "trời mưa nhớ mang ô nhaa, ướt người về ốm thì em thương lắm :("}
-        ]
+            "messages": [
+                {"text": data},
+                {"text": "trời mưa nhớ mang ô nhaa, ướt người về ốm thì em thương lắm :("}
+            ]
         }
-    #r.headers['Content-Type'] = 'application/json'
+    # r.headers['Content-Type'] = 'application/json'
     return jsonify(r)
+
 
 @app.route("/place", methods=['GET', 'POST'])
 def crawl_tea():
     param = request.args.get('param')
-    key  = "AIzaSyBgj-UKYIE4_cgfVAlLqPx6L74LlUBDFgQ"
+    key = "AIzaSyBgj-UKYIE4_cgfVAlLqPx6L74LlUBDFgQ"
     result = []
     url = (
-    'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
-    '?location=20.981357,105.787503&radius=3000&'
-    'name={}&key={}'
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+        '?location=20.981357,105.787503&radius=3000&'
+        'name={}&key={}'
     ).format(param, key)
 
     re = requests.get(url)
     data = re.json()
     list_data = data["results"]
     for store in list_data:
-        result.append("{} Địa chỉ:{}".format(store["name"],store["vicinity"]))
-    text_ = "\n".join(result)   
+        result.append("{} Địa chỉ:{}".format(store["name"], store["vicinity"]))
+    text_ = "\n".join(result)
     r = {
-    "messages": [
-    {"text": text_}
-    ]
+        "messages": [
+            {"text": text_}
+        ]
     }
-    if param in ["tea","coffee"]:
+    if param in ["tea", "coffee"]:
         r = {
             "messages": [
-            {"text": text_},
-            {"text":"đi chơi nhớ mua phần em với nhaa :>"}
+                {"text": text_},
+                {"text": "đi chơi nhớ mua phần em với nhaa :>"}
             ]
-            }   
+        }
 
     return jsonify(r)
 
-@app.route("/buabaokeo", methods=['GET','POST'])
+
+@app.route("/buabaokeo", methods=['GET', 'POST'])
 def play_game():
     param = request.args.get('param')
     list_ = ['Búa', 'Bao', 'Kéo']
@@ -98,26 +101,44 @@ def play_game():
     else:
         text_ = "Chỉ chơi có bao búa kéo thôi "
         sent_text = "Đọc luật đi rồi chơi nhé :3 "
+
     r = {
         "messages": [
-        {"text": text_},
-        {"text": sent_text}
+            {"text": text_},
+            {"text": sent_text}
         ]
-        }  
+    }
     return jsonify(r)
 
-@app.route("/xsmb", methods=['GET','POST'])
+
+@app.route("/xsmb", methods=['GET', 'POST'])
 def find_lucky_number():
     re = requests.get("https://xoso.com.vn/")
     data = re.text
     soup = BS(data, "html.parser")
-    number = soup.find("span", id ="mb_prizeDB_item0").get_text()
+    number = soup.find("span", id="mb_prizeDB_item0").get_text()
     text_ = "Ting, ting.. con số may mắn hôm nay là {}".format(number[-2:])
     r = {
         "messages": [
-        {"text": text_}
+            {"text": text_}
         ]
-        }  
+    }
+    return jsonify(r)
+
+@app.route("/horo", methods=['GET', 'POST'])
+def get_horoscope():
+    re = requests.get("http://afamily.vn/horoscope.html")
+    soup = BS(re.text, "html.parser")
+    URL = soup.find("div", class_="afwblul-info").find(href=True).get('href')
+    URL = "http://afamily.vn" + URL
+    re = requests.get(URL)
+    soup = BS(re.text, "html.parser")
+    text_ = soup.find("div", class_="afcbc-body vceditor-content").get_text().replace("\n", " ").replace("\xa0", "")
+    r = {
+        "messages": [
+            {"text": text_}
+        ]
+    }
     return jsonify(r)
 
 
