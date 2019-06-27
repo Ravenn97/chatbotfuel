@@ -24,7 +24,7 @@ def crawl_weather():
     data = "Hiện tại nhiệt độ Hà Nội {}".format(result)
     r = {
         "messages": [
-            {"text": data},
+            {"text": data}
         ]
     }
     if "mưa" in data:
